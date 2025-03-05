@@ -5,5 +5,5 @@ from .models import Item
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ("title", "description", "counter")
+    list_display = ("title", "description")
 

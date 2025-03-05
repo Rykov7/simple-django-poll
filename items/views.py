@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.views.generic import ListView, RedirectView
 
-from items.models import Item
+from items.models import Item, Vote
 
 
 class ItemListView(ListView):
@@ -10,10 +11,10 @@ class ItemListView(ListView):
 
 
 class VoteView(RedirectView):
-    url = '/'
+    pattern_name  = "index"
 
     def get_redirect_url(self, *args, **kwargs):
+        ip = self.request.META.get("REMOTE_ADDR")
         item = get_object_or_404(Item, pk=kwargs["pk"])
-        item.counter += 1
-        item.save()
-        return super().get_redirect_url(*args, **kwargs)
+        Vote.objects.update_or_create(ip=ip, defaults={'choice_id': item.pk})
+        return reverse(self.pattern_name)
