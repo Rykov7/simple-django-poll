@@ -1,0 +1,8 @@
+### Django template
+*.log
+*.pyc
+__pycache__/
+.idea/
+images/
+staticfiles/
+db.sqlite3
