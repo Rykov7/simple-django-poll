@@ -11,16 +11,23 @@
 
 <div class="container-xxl">
 <h1>Голосование</h1>
+
+  {% if choice %}
+    <div class="alert alert-success" role="alert">
+      Вы проголосовали: <strong>{{ choice }}</strong>.
+    </div>
+  {% endif %}
+
   <div class="row row-cols-auto">
 {% for item in item_list %}
   <div class="col" style="margin: 0.5rem">
-    <div class="card" style="width: 35rem;">
+    <div class="card" style="width: 37rem;">
 
       <img src="{{ item.image.url }}" width="300px" class="card-img-top" alt="{{ item.title }}">
       <div class="card-body">
         <h5 class="card-title">{{ item.title }}</h5>
         <p class="card-text">{{ item.description }}</p>
-        <a class="btn btn-primary" href="{% url 'vote' item.id %}">
+        <a class="btn btn-{% if choice and item.pk == choice.choice.pk %}primary{% else %}default{% endif %}" href="{% url 'vote' item.pk %}">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
             <path
@@ -35,6 +42,7 @@
   Ещё не добавили объекты для голосования.
 {% endfor %}
   </div>
+<footer class="text-center text-muted">Ваш IP: {{ ip }}<br>by <a href="https://rykov7.ru">Rykov7.ru</a></footer>
 </div>
 </body>
 </html>

@@ -11,6 +11,8 @@ class Item(models.Model):
         verbose_name = 'Элемент голосования'
         verbose_name_plural = 'Элементы голосования'
 
+        ordering = ('title',)
+
     def __str__(self):
         return self.title
 
@@ -21,4 +23,8 @@ class Item(models.Model):
 class Vote(models.Model):
     """Голос."""
     ip = models.GenericIPAddressField(protocol='IPv4')
+    user_agent =  models.CharField(max_length=1024, default='Unknown')
     choice = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name='Выбор')
+
+    def __str__(self):
+        return self.choice.title
